@@ -33,10 +33,11 @@ class AuthController extends Controller
         }
 
         if (! $token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Incorrect email/password'], 401);
         }
 
-        return $this->createNewToken($token);
+//        return response()->json(['token' => $token]);
+        return $this->respondWithToken($token);
     }
 
     /**
@@ -84,7 +85,7 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function refresh() {
-        return $this->createNewToken(auth()->refresh());
+        return $this->respondWithToken(auth()->refresh());
     }
 
     /**
@@ -103,7 +104,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function createNewToken($token){
+    protected function respondWithToken($token){
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
