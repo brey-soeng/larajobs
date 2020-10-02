@@ -68,7 +68,6 @@ class AuthController extends Controller
         ], 201);
     }
 
-
     /**
      * Log the user out (Invalidate the token).
      *
